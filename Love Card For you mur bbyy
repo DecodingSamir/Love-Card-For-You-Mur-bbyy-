@@ -1,0 +1,101 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>For Deha bbyy — A Heartfelt Note</title>
+  <style>
+    :root{
+      --bg:#0f1724;
+      --card:#0b1020;
+      --accent:#ff5d8f;
+      --soft:#ffd1e3;
+    }
+    *{box-sizing:border-box;font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial}
+    html,body{height:100%;margin:0;background:radial-gradient(ellipse at 10% 10%, #071029 0%, var(--bg) 40%), linear-gradient(180deg, rgba(255,93,143,0.04), rgba(0,0,0,0.2));color:#e6eef8}
+    .wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:32px}
+    .card{width:920px;max-width:96%;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:20px;padding:36px;box-shadow:0 10px 40px rgba(2,6,23,0.7);border:1px solid rgba(255,255,255,0.03);position:relative;overflow:hidden}
+    .hearts{position:absolute;inset:0;pointer-events:none}
+    .title{font-size:28px;margin:0 0 8px;color:var(--soft);letter-spacing:0.4px}
+    .subtitle{margin:0 0 20px;color:rgba(230,238,248,0.7)}
+    .poem{background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:22px;border-radius:14px;border:1px dashed rgba(255,93,143,0.08);line-height:1.6;font-size:18px;color:#f8f5f8}
+    .poem b{color:var(--accent)}
+    .controls{display:flex;gap:12px;margin-top:18px}
+    .btn{background:linear-gradient(90deg,var(--accent),#ff8fb8);border:none;padding:10px 14px;border-radius:12px;color:#071028;font-weight:600;cursor:pointer;box-shadow:0 6px 18px rgba(255,93,143,0.14)}
+    .ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:rgba(230,238,248,0.9);padding:9px 12px;border-radius:12px;cursor:pointer}
+    .signature{margin-top:18px;color:rgba(230,238,248,0.8);font-style:italic}
+    .small{font-size:13px;color:rgba(230,238,248,0.6);margin-top:10px}/* animated hearts */
+.heart{position:absolute;width:14px;height:14px;transform:rotate(-45deg);left:50%;top:80%;opacity:0}
+.heart:before,.heart:after{content:'';position:absolute;width:14px;height:14px;background:linear-gradient(180deg,var(--accent),#ff8fb8);border-radius:50%}
+.heart:before{top:-7px}
+.heart:after{left:7px}
+
+/* floating hearts animation */
+@keyframes floatUp{0%{opacity:0;transform:translateY(0) scale(0.5) rotate(-45deg)}10%{opacity:1;scale:1}100%{opacity:0;transform:translateY(-420px) scale(1.2) rotate(-45deg)}}
+/* generate a few heart positions */
+.heart.h1{left:10%;animation:floatUp 5s linear infinite;animation-delay:-1s}
+.heart.h2{left:25%;animation:floatUp 6s linear infinite;animation-delay:-2s}
+.heart.h3{left:40%;animation:floatUp 4.8s linear infinite;animation-delay:-0.6s}
+.heart.h4{left:60%;animation:floatUp 5.6s linear infinite;animation-delay:-3s}
+.heart.h5{left:75%;animation:floatUp 5.2s linear infinite;animation-delay:-1.4s}
+.heart.h6{left:85%;animation:floatUp 6.4s linear infinite;animation-delay:-2.2s}
+
+/* responsive */
+@media (max-width:520px){.title{font-size:20px}.poem{font-size:16px;padding:16px}}
+
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card" role="article" aria-label="Romantic card">
+      <div class="hearts" aria-hidden="true">
+        <div class="heart h1"></div>
+        <div class="heart h2"></div>
+        <div class="heart h3"></div>
+        <div class="heart h4"></div>
+        <div class="heart h5"></div>
+        <div class="heart h6"></div>
+      </div><h1 class="title">For Deha bbyy — A Small Love</h1>
+  <p class="subtitle">Made with a little code, and a lot of heart 💌</p>
+
+  <div class="poem" id="poem">
+    <p>💫 <b>Deha bbyy</b> — when your eyes meet mine, I find entire galaxies where once I had only emptiness. Your smile rearranges my world; your voice writes poems inside my chest. 🌌💋</p>
+    <p>Every quiet breath of yours becomes my prayer; every unspoken word becomes a covenant between my heart and yours. I don't merely love you — I <em>worship</em> the peace your soul brings, and adore the spell your beauty casts. 🕊️✨</p>
+    <p>Stay with me in this small universe we've found… let me be the keeper of your laughter, the shelter for your tears, and the echo of your every dream. 🌙🫶</p>
+  </div>
+
+  <div class="controls">
+    <button class="btn" id="copyBtn">Copy Message</button>
+    <button class="ghost" id="toggleBtn">Toggle Light</button>
+  </div>
+
+  <div class="signature">— Yours, <span id="fromName">(Your Name)</span></div>
+  <div class="small">Tip: Click & copy to send this as a message. Replace <code>(Your Name)</code> with your name.</div>
+</div>
+
+  </div>  <script>
+    const copyBtn = document.getElementById('copyBtn');
+    const poem = document.getElementById('poem');
+    const fromName = document.getElementById('fromName');
+
+    // replace placeholder with prompt for user
+    fromName.textContent = "— (Your Name)";
+
+    copyBtn.addEventListener('click', async ()=>{
+      try{
+        await navigator.clipboard.writeText(poem.innerText + "\n\n— " + fromName.textContent.replace('— ','').replace('(','').replace(')',''));
+        copyBtn.textContent = 'Copied!';
+        setTimeout(()=>copyBtn.textContent='Copy Message',1400);
+      }catch(e){
+        alert('Copy not supported in this browser — select the text and copy manually.');
+      }
+    });
+
+    // simple light toggle for mood
+    const toggleBtn = document.getElementById('toggleBtn');
+    toggleBtn.addEventListener('click', ()=>{
+      document.body.style.background = document.body.style.background.includes('0f1724') ? 'linear-gradient(180deg, rgba(255,93,143,0.04), rgba(0,0,0,0.2))' : 'radial-gradient(ellipse at 10% 10%, #071029 0%, var(--bg) 40%), linear-gradient(180deg, rgba(255,93,143,0.04), rgba(0,0,0,0.2))';
+    });
+  </script></body>
+</html>
